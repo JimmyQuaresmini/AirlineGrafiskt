@@ -1,6 +1,6 @@
 package mainUI;
 
-import graphicalUI.AddPassengerForm;
+import graphicalUI.AddPForm2;
 import airplanePkg.Airplane;
 import airplanePkg.Seat;
 
@@ -11,7 +11,7 @@ public class JMAirMain {
 
 public static void main(String[] args) {
 
-    AddPassengerForm g = new AddPassengerForm();
+    AddPForm2 g = new AddPForm2();
 
         JMAirFlightReservationUI userInterface = new JMAirFlightReservationUI();
         Airplane[] airplanes = userInterface.welcomeToJMAirLine();

@@ -33,6 +33,10 @@ public class Airplane extends TimerTask implements Runnable{//extends Thread?
         //for (Seat s : seats) {
         for (int i = 0; i < 10; i++) {
             seats.add(i, new Seat());//tomma säten
+            
+            //kommenterar bort raden under igen i april 2018 för passagerare...
+            //...är människor som ska åka med och dom finns inte alltid
+            //passengers.add(i, new Passenger());//la jag till i feb 2018
         }
     }
 
@@ -66,29 +70,43 @@ public class Airplane extends TimerTask implements Runnable{//extends Thread?
         else{//la jag till 2:a dec
             if(seats.get(seat.getSeatNumber()).isBooked() == false){
                 seats.set(seat.getSeatNumber() - 1, seat);
-                passengers.set(seat.getSeatNumber() - 1, p);
+                //april 2018
+                if(passengers.size() < 10) {
+                    passengers.add(p);
+                }
+                else {
+                    passengers.set(seat.getSeatNumber() - 1, p);
+                }
             }
         }
     }
 
-    public void takeOff(){
-        System.out.println("Plane takes off to " + getDestination());
+    public String takeOff(){
+        String takeOffText = "Plane takes off to " + getDestination();
+        System.out.println(takeOffText);
         inTheAir = true;
+        return takeOffText;
     }
 
-    public void landing(){
-        System.out.println("Plane to " + getDestination() + " lands safely");
+    public String landing(){
+        String landingfText = "Plane to " + getDestination() + " lands safely";
+        System.out.println(landingfText);
         inTheAir = false;
         readyForTakeOff = false;
+        return landingfText;
     }
 
-    public void loadPlane(){
-        System.out.println("Plane loads passengers and cargo");
+    public String loadPlane(){
+        String loadText = "Plane loads passengers and cargo";
+        System.out.println(loadText);
         readyForTakeOff = true;
+        return loadText;
     }
 
-    public void checkAndRefuel(){
-        System.out.println("Plane to " + getDestination() + " is being checked and refueled");
+    public String checkAndRefuel(){
+        String checkText = "Plane to " + getDestination() + " is being checked and refueled";
+        System.out.println(checkText);
+        return checkText;
     }
 
     @Override
@@ -163,21 +181,47 @@ public class Airplane extends TimerTask implements Runnable{//extends Thread?
         //int i = 0;
         //for (Passenger p : passengers) {//fel med foreach tror jag
         for(int i = 0; i < 10; i++){
-            Passenger nyP = new Passenger();
-            nyP.setFirstName("Passenger");//p
-            nyP.setLastName("Unnamed" + i);
-            nyP.setAge(35 + i);
-            nyP.setDestination(getDestination());
-            nyP.setSeatNr(i + 1);
-            if (i < 5){
-                nyP.setTicketPrice(21500);
+            if (passengers.size() >= 10) {
+                passengers.get(i).setFirstName("Passenger");//p
+                passengers.get(i).setLastName("Unnamed" + i);
+                passengers.get(i).setAge(35 + i);
+                passengers.get(i).setDestination(getDestination());
+                passengers.get(i).setSeatNr(i + 1);
+                if (i < 5) {
+                    passengers.get(i).setTicketPrice(21500);
+                } else {
+                    passengers.get(i).setTicketPrice(5300);
+                }
+                if (seats.size() >= 10) {
+                    seats.get(i).setBooked(true);
+                    seats.get(i).setSeatNumber(i + 1);
+                    seats.get(i).setPassenger(passengers.get(i));                    
+                } else {
+                    seats.add(i, new Seat(i + 1, passengers.get(i)));
+                }
             }
-            else{
-                nyP.setTicketPrice(5300);
-            }
-            passengers.add(nyP);
-
-            seats.add(i, new Seat(i + 1,nyP));
+            else {
+                Passenger nyP = new Passenger();
+                nyP.setFirstName("Passenger");//p
+                nyP.setLastName("Unnamed" + i);
+                nyP.setAge(35 + i);
+                nyP.setDestination(getDestination());
+                nyP.setSeatNr(i + 1);
+                if (i < 5) {
+                    nyP.setTicketPrice(21500);
+                } else {
+                    nyP.setTicketPrice(5300);
+                }
+                passengers.add(nyP);
+                
+                if (seats.size() >= 10) {
+                    seats.get(i).setBooked(true);
+                    seats.get(i).setSeatNumber(i + 1);
+                    seats.get(i).setPassenger(nyP);                    
+                } else {
+                    seats.add(i, new Seat(i + 1, nyP));
+                }
+            }            
         }
     }
 

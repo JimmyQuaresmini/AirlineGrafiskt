@@ -28,6 +28,27 @@ public class FlightClass extends JPanel implements ActionListener {
 
         //this.paintComponent(getGraphics());
 
+        /*tm = new Timer(1000, this);
+        if(started == false){
+            tm.start();
+            started = true;
+        }
+
+        startTimeSeconds = LocalTime.now().getSecond();
+        stopTime = startTimeSeconds + 10;//47
+        if (stopTime > 60){
+            stopTime = stopTime - 60;
+        }
+        System.out.println("startTimeSeconds = " + startTimeSeconds);
+        System.out.println("stopTime = " + stopTime);
+        if(LocalTime.now().getSecond() == startTimeSeconds + 47){
+            tm.stop();
+        }*/
+        this.setVisible(true);
+    }
+    
+    //ny april 2018 av det som var i konstruktorn
+    public void startFlightTimer() {
         tm = new Timer(1000, this);
         if(started == false){
             tm.start();
@@ -44,7 +65,6 @@ public class FlightClass extends JPanel implements ActionListener {
         if(LocalTime.now().getSecond() == startTimeSeconds + 47){
             tm.stop();
         }
-        this.setVisible(true);
     }
 
     @Override
@@ -80,5 +100,13 @@ public class FlightClass extends JPanel implements ActionListener {
         x = x + velX;
 
         repaint();//var 5:e ms
+    }
+    
+    public void movePlanes(int speed) {
+        x = x + speed;
+    }
+    
+    public void setX (int newX) {
+        this.x = newX;
     }
 }
