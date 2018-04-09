@@ -85,13 +85,14 @@ public class FlightClass extends JPanel implements ActionListener {
 
         //tm.start();//startar timern o actionlistenern(actionPerformed)
 
-        System.out.println();
+        //kommenterar april 2018 efter jag gjort FlyingForm3
+        /*System.out.println();
         int secNow = LocalTime.now().getSecond();
         System.out.println("secNow = " + secNow);
         System.out.println();
         if(secNow == stopTime){
             tm.stop();
-        }
+        }*/
 
         //x = x + velX;//kopierade hit när jag ville testa köra utan timer
     }
@@ -99,14 +100,10 @@ public class FlightClass extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e){
         x = x + velX;
 
-        repaint();//var 5:e ms
+        repaint();
     }
     
     public void movePlanes(int speed) {
         x = x + speed;
-    }
-    
-    public void setX (int newX) {
-        this.x = newX;
     }
 }

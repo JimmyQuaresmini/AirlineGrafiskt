@@ -2,10 +2,9 @@ package graphicalUI;
 
 import airplanePkg.Airplane;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
@@ -18,8 +17,8 @@ import javax.swing.Timer;
  *
  * @author Jimmy
  * 
- * ska slå ihop delar av FlyForm2...
- * ...och FlightClass.
+ * bygger på FlyForm2...
+ * ...och använder FlightClass.
  * FlightClass gjorde det rätt.
  * FlyForm2 hade dom flesta delarna.
  * April 2018.
@@ -72,10 +71,16 @@ public class FlyingForm3 extends JFrame implements ActionListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
-        flyingFormWindow.setLayout(new java.awt.GridLayout(4, 2));
+        //flyingFormWindow.setLayout(new java.awt.GridLayout(4, 2));
+        flyingFormWindow.setLayout(new java.awt.GridBagLayout());
+        GridBagConstraints gBagConstraints = new GridBagConstraints();
+        gBagConstraints.fill = GridBagConstraints.BOTH;
+        gBagConstraints.gridx = 0;
+        gBagConstraints.gridy = 0;
 
+        fc.setPreferredSize(new Dimension(550, 250));
         flygPanel.setLayout(new java.awt.GridLayout(1, 1));
-        flyingFormWindow.add(flygPanel);
+        flyingFormWindow.add(flygPanel, gBagConstraints);
         
         //flyttat från btnFLy
         flygPanel.setLayout(new BorderLayout());
@@ -90,8 +95,11 @@ public class FlyingForm3 extends JFrame implements ActionListener {
         jScrollPane1.setViewportView(planeTextArea);
 
         textPanel.add(jScrollPane1);
+        textPanel.setPreferredSize(new Dimension(550, 350));
 
-        flyingFormWindow.add(textPanel);
+        gBagConstraints.gridx = 0;
+        gBagConstraints.gridy = 1;
+        flyingFormWindow.add(textPanel, gBagConstraints);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 3));
 
@@ -103,8 +111,16 @@ public class FlyingForm3 extends JFrame implements ActionListener {
         returnButton.addActionListener(this);
         jPanel1.add(returnButton);
 
-        flyingFormWindow.add(jPanel1);
-        flyingFormWindow.add(progressBar);
+        gBagConstraints.fill = GridBagConstraints.NONE;
+        gBagConstraints.gridx = 0;
+        gBagConstraints.gridy = 2;
+        
+        flyingFormWindow.add(jPanel1, gBagConstraints);
+        
+        gBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gBagConstraints.gridx = 0;
+        gBagConstraints.gridy = 3;        
+        flyingFormWindow.add(progressBar, gBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,9 +159,6 @@ public class FlyingForm3 extends JFrame implements ActionListener {
         }
         System.out.println("startTimeSeconds = " + startTimeSeconds);
         System.out.println("stopTime = " + stopTime);
-        /*if(LocalTime.now().getSecond() == stopTime) { //startTimeSeconds + 47){
-            tm.stop();
-        }*/
     }    
 
     @Override
@@ -158,11 +171,10 @@ public class FlyingForm3 extends JFrame implements ActionListener {
                 }
                 else if(x == 225){
                     planeTextArea.setText(planeTextArea.getText() + "\n" + plane.landing());
-                    planeTextArea.setText(planeTextArea.getText() + "\n" + plane.checkAndRefuel() + "\n");
+                    planeTextArea.setText(planeTextArea.getText() + "\n" + plane.checkAndRefuel() + "\n" + "\n");
                 }
             }
                         
-            //progressBar.updateUI();
             prog = prog + 10;
             planeTextArea.setText(planeTextArea.getText() + "planes have flown " + prog + " %" + "\n");
             progress = progress + 4700;
@@ -179,19 +191,15 @@ public class FlyingForm3 extends JFrame implements ActionListener {
             }
         }
         else if (e.getSource() == btnFly) {
-            //flygPanel.setLayout(new BorderLayout());
-            //flygPanel.setVisible(true);
-            //flygPanel.add(fc, BorderLayout.CENTER);
-
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
             //planeTextArea.setText(planes.get(0).returnPassengerList() + "\n" + planes.get(1).returnPassengerList() + "\n"
             //      + planes.get(2).returnPassengerList() + "\n" + planes.get(3).returnPassengerList() + "\n");
             //flyttade dom hit för att testa april 2018
-            planeTextArea.setText(planeTextArea.getText() + "\n" + "\n" + "Blue plane to " + planes.get(0).getDestination());
+            planeTextArea.setText(planeTextArea.getText() + "Blue plane to " + planes.get(0).getDestination());
             planeTextArea.setText(planeTextArea.getText() + "\n" + "\n" + "Red plane to " + planes.get(1).getDestination());
             planeTextArea.setText(planeTextArea.getText() + "\n" + "\n" + "Green plane to " + planes.get(2).getDestination());
-            planeTextArea.setText(planeTextArea.getText() + "\n" + "\n" + "Cyan plane to " + planes.get(3).getDestination());
+            planeTextArea.setText(planeTextArea.getText() + "\n" + "\n" + "Cyan plane to " + planes.get(3).getDestination()+ "\n");
                     
             startFlightTimer();//april 2018
         }
